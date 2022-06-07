@@ -55,4 +55,44 @@ router.get('/youtube/v3/search', async function (req, res) {
   global.db.incr('/youtube/v3/search');
 });
 
+router.get('/api/user/:userid', (req, res) => {
+  const userId = req.params.userid;
+  if (userId === 'rahulnjs') {
+    const user = {
+      "firstName": "Rahul",
+      "lastName": "Sharma",
+      "gender": "man",
+      "age": 24,
+      "address": {
+        "streetAddress": "126",
+        "city": "San Jone",
+        "state": "CA",
+        "postalCode": "394221"
+      },
+      "phone": [
+        { "type": "home", "number": "7383627627" }
+      ]
+    };
+    if (req.query.include) {
+      const parts = req.query.include.split(/\s?,\s?/);
+      if (parts.length <= 1) {
+        if (parts[0] === 'address') {
+          delete user.phone;
+        } else {
+          delete user.address;
+        }
+      }
+    } else {
+      delete user.address;
+      delete user.phone;
+    }
+
+    res.json(user);
+  } else {
+    res.status = 404;
+    res.json({ err: 'Not found' });
+  }
+
+});
+
 module.exports = router;
