@@ -55,7 +55,7 @@ router.get('/youtube/v3/search', async function (req, res) {
   global.db.incr('/youtube/v3/search');
 });
 
-router.get('/api/user/:userid', (req, res) => {
+router.get('/demo/user/:userid', (req, res) => {
   const userId = req.params.userid;
   if (userId === 'rahulnjs') {
     const user = {
